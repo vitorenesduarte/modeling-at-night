@@ -1,2 +1,7 @@
 # modeling-at-night
-Models of some problems - Alloy, NuXMV and TLA
+Modeling some problems in Alloy, NuXMV and TLA
+
+
+### The Frog Puzzle [(link)](http://www.digyourowngrave.com/frog-jumping-puzzle/)
+
+
