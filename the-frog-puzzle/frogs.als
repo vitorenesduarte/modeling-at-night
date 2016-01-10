@@ -121,6 +121,11 @@ pred jump[b : BrownFrog, t,t' : Time] {
         )
 }
 
+pred theRestRemainsTheSame[p1, p2 : Int, t, t' : Time] {
+   let others = keys[t] - p1 - p2 
+      | all o : others | Rocks.frogs.t'[o] = Rocks.frogs.t[o]
+}
+
 fact traces {
    init[T0/first]
    all t : Time - T0/last | let t' = T0/next[t]
