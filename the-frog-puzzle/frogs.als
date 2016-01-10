@@ -18,7 +18,7 @@ one sig Rocks {
 pred facts[t : Time] {
    // * starts a position zero -> left rock
    I0/min[keys[t]] = 0 
-	
+   
    // * in each rock, there's only one frog
    all k : keys[t] | one Rocks.frogs[k].t 
 
@@ -46,7 +46,7 @@ fun keys [t : Time] : set Int {
 }
 
 fun lastKey [t : Time] : Int {
-	I0/max[keys[t]]
+   I0/max[keys[t]]
 }
 
 fun range[min : Int, max : Int] : set Int {
@@ -98,7 +98,7 @@ pred jump[g : GreenFrog, t,t' : Time] {
 }
 
 pred jump[b : BrownFrog, t,t' : Time] {
-	let position = Rocks.frogs.t.b,
+   let position = Rocks.frogs.t.b,
          nextPosition = I0/minus[position, 1],
          nextNextPosition = I0/minus[position, 2]
       | (
@@ -134,7 +134,7 @@ fact traces {
 }
 
 pred win[t : Time] {
-      let GreenIndexes = Rocks.frogs.t.GreenFrog,
+   let GreenIndexes = Rocks.frogs.t.GreenFrog,
          NoIndexes = Rocks.frogs.t.NoFrog,
          BrownIndexes = Rocks.frogs.t.BrownFrog,
          minGI = I0/min[GreenIndexes],
@@ -152,5 +152,5 @@ pred win[t : Time] {
 }
 
 run {
-	some t : Time | win[t]
+   some t : Time | win[t]
 } for 10 but exactly 2 GreenFrog, exactly 2 BrownFrog, exactly 1 NoFrog
