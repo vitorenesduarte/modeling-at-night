@@ -28,11 +28,11 @@ abstract sig Edificio {}
 sig Casa, Hotel extends Edificio {}
 
 fact {
-	all t : Time | inv[t]
+   all t : Time | inv[t]
 }
 
 pred inv[t : Time] {
-	   // * iii)  Cada edifício pertence no máximo a uma avenida.
+   // * iii)  Cada edifício pertence no máximo a uma avenida.
    all e : Edificio | lone edificio.t.e
 
    // * iv) Uma avenida só pode ter edifícios se tiver dono e se todas as
@@ -46,6 +46,11 @@ pred inv[t : Time] {
    all a : Avenida
       | let avenidasComAMesmaCor = a.cor.~cor
          | some a.edificio.t & Hotel => some avenidasComAMesmaCor.edificio.t & Casa
+
+   // novo invariante:
+   // Uma propriedade pertence a um jogador que existe
+   all p : Propriedade
+      | p.dono.t in jogador.t 
 }
 
 run {
