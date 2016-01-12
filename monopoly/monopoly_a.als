@@ -34,8 +34,8 @@ fact {
    // * v) Não é possível uma avenida ter um hotel se outra avenida da
    // mesma cor ainda não tiver nenhum edifiício
    all a : Avenida
-      | let avenidasComAMesmaCor = a.cor.~cor
-         | some a.edificio & Hotel => some avenidasComAMesmaCor.edificio & Casa
+      | let avenidasComAMesmaCorMenosEsta = a.cor.~cor - a
+         | some a.edificio & Hotel => some avenidasComAMesmaCorMenosEsta.edificio
 }
 
 run {
