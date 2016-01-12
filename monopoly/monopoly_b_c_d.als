@@ -73,10 +73,9 @@ check compra_consistent {
    }
 } for 5
 
-pred show_compra {
-   some j : Jogador, p : Propriedade, t : Time | let t' = T0/next[t] | compra[j, p, t, t']
-}
-
-run show_compra for 3
+run show_compra {
+   some t : Time, j : Jogador, p : Propriedade
+      | let t' = T0/next[t] | inv[t] and compra[j, p, t, t']
+}for 2
 
 // * c ii)
