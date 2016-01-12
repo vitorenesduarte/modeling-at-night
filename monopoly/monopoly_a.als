@@ -20,7 +20,7 @@ pred inv {
    all p : Propriedade | lone p.dono
 
    // * ii)  Cada avenida tem no máximo um edifício.
-	all a : Avenida | lone a.edificio
+   all a : Avenida | lone a.edificio
 
    // * iii)  Cada edifício pertence no máximo a uma avenida.
    all e : Edificio | lone edificio.e
@@ -28,8 +28,9 @@ pred inv {
    // * iv) Uma avenida só pode ter edifícios se tiver dono e se todas as
    // avenidas da mesma cor pertencerem ao mesmo dono
    all a : Avenida 
-      | let avenidasComAMesmaCor = a.cor.~cor 
-         | some a.edificio => a.dono = avenidasComAMesmaCor.dono
+      | let avenidasComAMesmaCorMenosEsta = a.cor.~cor - a
+         | some a.edificio
+            => all outra : avenidasComAMesmaCorMenosEsta |  a.dono = outra.dono
 
    // * v) Não é possível uma avenida ter um hotel se outra avenida da
    // mesma cor ainda não tiver nenhum edifiício
@@ -40,7 +41,7 @@ pred inv {
 }
 
 run {
-	inv
+   inv
    #Jogador = 1
    #Propriedade = 2
    #Edificio = 1
