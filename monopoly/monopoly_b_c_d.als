@@ -117,3 +117,13 @@ run show_constroi {
 } for 2
 
 
+// * d) Assumindo que apenas estas operaçõeses são permitidas,
+// verifique que só é possível uma avenida ter um hotel depois de todas
+// as avenidas da mesma cor terem simultaneamente uma casa cada.
+check hotel_so_quando_todas_tem_casa {
+	all t, t' : Time, p : Propriedade, j : Jogador, a : Avenida {
+      inv[t] and (compra[j, p, t, t'] or constroi[a, t, t']) => {
+         all a : Avenida | some a.edificio.t' & Hotel => all a' : a.cor.~cor | some a'.edificio.t'
+      }
+   } 
+}
