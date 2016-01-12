@@ -43,7 +43,7 @@ fact {
 
 
 run {
-    #Jogador = 1
-	#Propriedade = 2
-    #Edificio = 1
+   #Jogador = 1
+   #Propriedade = 2
+   #Edificio = 1
 } for 3
