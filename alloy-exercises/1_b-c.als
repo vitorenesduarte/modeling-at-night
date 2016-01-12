@@ -39,21 +39,17 @@ pred inv[t : Time]{
 // c)  Especifique a operação LancaNota que lanca a nota de um aluno de uma UCE, por
 // forma a garantir a sua consistência e a preservação dos invariantes.
 pred lanca_nota[a : Aluno, u : UCE, n : Nota, t, t' : Time] {
-  no u.notas[a].t
   a in u.inscritos.t
 
-  // as notas dos outros alunos do grupo deste aluno é igual à nota que vai ser lançada
+  // ninguém no grupo tem notas
   let grupo = membros.a & u.grupos.t
-    | all a_ : grupo.membros - a | u.notas.t[a_] = n
+    | no grupo.membros.(u.notas.t)
+  
+  let grupo = membros.a & u.grupos.t
+    | notas.t' = notas.t + u -> grupo.membros -> n
 
-  u.notas.t'[a] = n
-
-  // as notas nesta UCE dos restantes alunos mantém-se
-  all a_ : u.notas.t.Nota  - a | u.notas.t'[a_] = u.notas.t[a_] 
-  // as notas nas restantes UCE mantém-se
-  all u_ : UCE - u | u_.notas.t' = u_.notas.t
-  all u : UCE | u.grupos.t' = u.grupos.t // os grupos mantém-se
-  all u : UCE | u.inscritos.t' = u.inscritos.t  // os inscritos também
+  grupos.t' = grupos.t // os grupos mantêm-se
+  inscritos.t' = inscritos.t // os inscritos também
 }
 
 check lanca_nota_consistente {
@@ -61,9 +57,10 @@ check lanca_nota_consistente {
     let t' = T0/next[t]
       | inv[t] and lanca_nota[a, u, n, t, t'] implies inv[t']
   }
-} for 2
+} for 5
 
+// no instance - why?
 run show_lanca_nota {
   some t : Time, a : Aluno, u : UCE, n : Nota
     | let t' = T0/next[t] | inv[t] and lanca_nota[a, u, n, t, t']
-}
+} for 3
