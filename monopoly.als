@@ -38,10 +38,6 @@ fact {
          | some a.edificio & Hotel => some avenidasComAMesmaCor.edificio & Casa
 }
 
-
-
-
-
 run {
    #Jogador = 1
    #Propriedade = 2
