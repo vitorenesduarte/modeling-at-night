@@ -1,0 +1,80 @@
+MODULE main
+
+IVAR
+  which : {GX, GY, BX, BY};
+  -- initial position:
+  --    GX GY ROCK BX BY
+  --    -> -> ____ <- <-
+  
+DEFINE
+  N := 2 + 1 + 2;
+  GxJumpNext := (GxIndex + 1) = RockIndex;
+  GxJumpNextNext := 
+    ((GxIndex + 1) = BxIndex | (GxIndex + 1) = ByIndex) &
+    (GxIndex + 2) = RockIndex;
+  GyJumpNext := (GyIndex + 1) = RockIndex;
+  GyJumpNextNext :=
+    ((GyIndex + 1) = BxIndex | (GyIndex + 1) = ByIndex) &
+    (GyIndex + 2) = RockIndex;
+  BxJumpNext := (BxIndex - 1) = RockIndex;
+  BxJumpNextNext :=
+    ((BxIndex - 1) = GxIndex | (BxIndex - 1) = GyIndex) &
+    (BxIndex - 2) = RockIndex;
+  ByJumpNext := (ByIndex - 1) = RockIndex;
+  ByJumpNextNext := 
+    ((ByIndex - 1) = GxIndex | (ByIndex - 1) = GyIndex) &
+    (ByIndex - 2) = RockIndex;
+
+  GxJump := GxJumpNext | GxJumpNextNext;
+  GyJump := GyJumpNext | GyJumpNextNext;
+  BxJump := BxJumpNext | BxJumpNextNext;
+  ByJump := ByJumpNext | ByJumpNextNext;
+
+VAR
+  GxIndex : 0..(N - 1);
+  GyIndex : 0..(N - 1);
+  BxIndex : 0..(N - 1);
+  ByIndex : 0..(N - 1);
+  RockIndex : 0..(N - 1);
+
+ASSIGN
+  init(GxIndex) := 0;
+  init(GyIndex) := 1;
+  init(RockIndex) := 2;
+  init(BxIndex) := 3;
+  init(ByIndex) := 4; 
+
+  next(GxIndex) := 
+    (which = GX & GxJump)
+      ? RockIndex 
+      : GxIndex
+    ; 
+
+  next(GyIndex) := 
+    (which = GY & GyJump)
+      ? RockIndex
+      : GyIndex
+    ;
+
+  next(BxIndex) := 
+    (which = BX & BxJump)
+      ? RockIndex
+      : BxIndex
+    ;
+
+  next(ByIndex) := 
+    (which = BY & ByJump)
+      ? RockIndex
+      : ByIndex
+    ;
+
+  next(RockIndex) := 
+    case
+      (which = GX & GxJump) : GxIndex;
+      (which = GY & GyJump) : GyIndex;
+      (which = BX & BxJump) : BxIndex;
+      (which = BY & ByJump) : ByIndex;
+      TRUE: RockIndex;
+    esac;
+
+LTLSPEC G ! (BxIndex = 0 & ByIndex = 1 & RockIndex = 2 & GxIndex = 3 & GyIndex = 4)
