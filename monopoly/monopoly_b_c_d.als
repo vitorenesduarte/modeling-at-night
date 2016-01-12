@@ -6,18 +6,12 @@ sig Espaco {}
 
 sig Propriedade extends Espaco {
    dono : set Jogador -> Time
-} {
-   // * b i) Cada propriedade tem no máximo um dono.
-	all t : Time | lone dono.t
 }
 
 sig Avenida extends Propriedade {
    cor : one Cor,
    edificio : set Edificio -> Time
-} {
-   // * b ii)  Cada avenida tem no máximo um edifício.
-	all t : Time | lone edificio.t
-}
+} 
 
 sig Cor {}
 sig Jogador {
@@ -27,11 +21,13 @@ sig Jogador {
 abstract sig Edificio {}
 sig Casa, Hotel extends Edificio {}
 
-fact {
-   all t : Time | inv[t]
-}
-
 pred inv[t : Time] {
+   // * b i) Cada propriedade tem no máximo um dono.
+	all p : Propriedade | lone p.dono.t
+
+   // * b ii)  Cada avenida tem no máximo um edifício.
+	all a : Avenida | lone a.edificio.t
+
    // * b iii)  Cada edifício pertence no máximo a uma avenida.
    all e : Edificio | lone edificio.t.e
 
