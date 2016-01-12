@@ -33,6 +33,6 @@ pred inv {
 }
 
 run {
-	inv
-   one Grupo
+  inv
+  one Grupo
 } for 3

@@ -30,7 +30,7 @@ pred inv [t : Time]{
   all u : UCE, a : u.inscritos.t | lone u.notas.t[a] // todos os inscritos tem no máximo uma nota
 
   // * iv) Cada aluno inscrito pertence apenas a um grupo em cada UCE
-  all u : UCE, a : u.inscritos.t | lone u.grupos.t & membros.a
+  all u : UCE, a : u.inscritos.t | one u.grupos.t & membros.a
 
   // * v) Todos os elementos de um grupo que já tem nota lançada têm a mesma nota.
   all u : UCE, g : u.grupos.t | one g.membros.(u.notas.t)
