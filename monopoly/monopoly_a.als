@@ -35,7 +35,8 @@ fact {
    // mesma cor ainda não tiver nenhum edifiício
    all a : Avenida
       | let avenidasComAMesmaCorMenosEsta = a.cor.~cor - a
-         | some a.edificio & Hotel => some avenidasComAMesmaCorMenosEsta.edificio
+         | some a.edificio & Hotel
+            => all outra : avenidasComAMesmaCorMenosEsta | some outra.edificio
 }
 
 run {

@@ -45,7 +45,8 @@ pred inv[t : Time] {
    // mesma cor ainda não tiver nenhum edifiício
    all a : Avenida
       | let avenidasComAMesmaCorMenosEsta = a.cor.~cor - a
-         | some a.edificio.t & Hotel => some avenidasComAMesmaCorMenosEsta.edificio.t
+         | some a.edificio.t & Hotel
+            => all outra : avenidasComAMesmaCorMenosEsta | some outra.edificio.t
 
    // * b) novo invariante:
    // Uma propriedade pertence a um jogador que existe
