@@ -40,8 +40,16 @@ pred inv[t : Time] {
   one actual.t
 }
 
+
+abstract sig Event {
+  t, t' : one Time
+}
+
 // c i) novo: acrescentar um número à agenda.
-pred novo [num : Numero, n : Nome, t,t' : Time] {
+sig Novo extends Event {
+  num : Numero, 
+  n : Nome
+} {
   some n & nome.t // a pessoa existe
   no num & (nome.t).agenda.t // o numero ainda não existe na agenda
   no chamada.t.numero & num // o numero não foi chamado
@@ -54,20 +62,21 @@ pred novo [num : Numero, n : Nome, t,t' : Time] {
 }
 
 check novo_consistente {
-  all t : Time - T0/last, num : Numero, nome : Nome {
-    let t' = T0/next[t]
-      | inv[t] and novo[num, nome, t, t'] implies inv[t']
+  all e : Novo {
+    inv[e.t] implies inv[e.t'] 
   }
 } for 5
 
 run show_novo {
-  some t : Time, num : Numero, nome : Nome
-    | let t' = T0/next[t] | inv[t] and novo[num, nome, t, t']
+  some e : Novo {
+    inv[e.t]
+  }
 } for 2
 
-
 // c ii) apaga: eliminar um nome da agenda, apagando todos os números que lhe estão associados
-pred apaga [n : Nome, t,t' : Time] {
+sig Apaga extends Event {
+  n : Nome
+} {
   some n & nome.t // a pessoa existe
   let Actual = actual.t | some Actual and some H0/next[Actual] // existe a hora atual e a seguinte
   no agenda.t[n] & chamada.t.numero // não há chamadas neste momento para numeros desta pessoa
@@ -79,15 +88,15 @@ pred apaga [n : Nome, t,t' : Time] {
 }
 
 check apaga_consistente {
-  all t : Time - T0/last, n : Nome {
-    let t' = T0/next[t]
-      | inv[t] and apaga[n, t, t'] implies inv[t']
+  all e : Apaga {
+    inv[e.t] implies inv[e.t']
   }
 } for 5
 
 run show_apaga {
-  some t : Time, n : Nome
-    | let t' = T0/next[t] | inv[t] and apaga[n, t, t']
+  some e : Apaga {
+    inv[e.t]
+  }
 } for 2
 
 
