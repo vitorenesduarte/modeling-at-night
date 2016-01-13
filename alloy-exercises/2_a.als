@@ -16,7 +16,7 @@ sig Chamada {
 
 pred inv {
   // * i) Um número não pode pertencer a duas pessoas diferentes
-  all n : Numero | one agenda.n
+  all n : Numero | lone agenda.n
 
   // * ii) Todos os números chamados fazem parte da agenda
   all n : Chamada.numero | n in Nome.agenda
