@@ -45,7 +45,7 @@ abstract sig Event {
   t, t' : one Time
 }
 
-// c i) novo: acrescentar um número à agenda.
+// * e i) novo: acrescentar um número à agenda.
 sig Novo extends Event {
   num : Numero, 
   n : Nome
@@ -73,7 +73,7 @@ run show_novo {
   }
 } for 2
 
-// c ii) apaga: eliminar um nome da agenda, apagando todos os números que lhe estão associados
+// * e ii) apaga: eliminar um nome da agenda, apagando todos os números que lhe estão associados
 sig Apaga extends Event {
   n : Nome
 } {
@@ -100,8 +100,6 @@ run show_apaga {
 } for 2
 
 
-// c iii) chamar: efectuar uma chamada para uma determinada pessoa - a chamada deve
+// * e iii) chamar: efectuar uma chamada para uma determinada pessoa - a chamada deve
 // ficar registada com a hora actual.
 // TODO
-
-
