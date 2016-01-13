@@ -116,14 +116,21 @@ pred init[t: Time] {
   actual.t = H0/first
 }
 
-fact TracesEvent {
-  init[T0/first]
-
+fact traces {
+  init[T0/first] 
+  
   all pre : Time - T0/last | let pos = T0/next[pre] {
-    some e : Event {
-      e.t = pre and e.t' = pos
-    }
+    one e : Event | e.t = pre and e.t' = pos
+    // all n : Numero | lone chamada.(*next.pos)  & numero.n 
+    // a interseção entre todas as chamadas até então
+    // e todas as chamadas para o Número n
+    // dá todas as chamadas para o Número n até então
+    // queremos que no máximo seja uma -> lone
   }
-}
+} 
 
+// no instances - why?
+run {
+
+} for 3
 
