@@ -1,0 +1,37 @@
+MODULE 
+  main
+
+DEFINE
+  N := 10;
+
+VAR
+  board : array 0..2 of array 0..2 of boolean;
+
+IVAR
+  x : 0..2;
+  y : 0..2;
+
+ASSIGN
+  next(board[0][0]) := x=0 & y=0 | x=1 & y=0 | x=0 & y=1 ? !board[0][0] : board[0][0];
+  next(board[0][1]) := x=0 & y=1 | x=1 & y=1 | x=0 & y=0 | x=0 & y=2 ? !board[0][1] : board[0][1];
+  next(board[0][2]) := x=0 & y=2 | x=1 & y=2 | x=0 & y=1 ? !board[0][2] : board[0][2];
+  next(board[1][0]) := x=1 & y=0 | x=2 & y=0 | x=0 & y=0 | x=1 & y=1 ? !board[1][0] : board[1][0];
+  next(board[1][1]) := x=1 & y=1 | x=2 & y=1 | x=0 & y=1 | x=1 & y=0 | x=1 & y=2 ? !board[1][1] : board[1][1];
+  next(board[1][2]) := x=1 & y=2 | x=2 & y=2 | x=0 & y=2 | x=1 & y=1 ? !board[1][2] : board[1][2];
+  next(board[2][0]) := x=2 & y=0 | x=1 & y=0 | x=2 & y=1 ? !board[2][0] : board[2][0];
+  next(board[2][1]) := x=2 & y=1 | x=1 & y=1 | x=2 & y=0 | x=2 & y=2 ? !board[2][1] : board[2][1];
+  next(board[2][2]) := x=2 & y=2 | x=1 & y=2 | x=2 & y=1 ? !board[2][2] : board[2][2];
+
+-- all configurations have solutions
+CTLSPEC EF  ( 
+      board[0][0] = FALSE &
+      board[0][1] = FALSE & 
+      board[0][2] = FALSE & 
+      board[1][0] = FALSE &
+      board[1][1] = FALSE & 
+      board[1][2] = FALSE &
+      board[2][0] = FALSE &
+      board[2][1] = FALSE &
+      board[2][2] = FALSE 
+)
+
